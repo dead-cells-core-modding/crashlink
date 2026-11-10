@@ -1535,7 +1535,7 @@ def generate_functions(code: Bytecode, progress_cb: Optional[ProgressCallback] =
                         if isinstance(obj_t, (Obj, Struct)):
                             obj = f"r{obj_reg}"
                             fid = df["field"].value
-                            func_ptr = f"{obj}->_s_type->vobj_proto[{fid}]"
+                            func_ptr = f"{obj}->_s_type->vobj_table[{fid}]"
                             dst_reg = df["dst"].value
                             ret_type = function.regs[dst_reg]
                             obj_type = function.regs[obj_reg]
@@ -1712,7 +1712,7 @@ def generate_functions(code: Bytecode, progress_cb: Optional[ProgressCallback] =
                             f"VirtualClosure on non-Obj/Struct type: {objdef} at op {i} in function {function.findex}"
                         )
                         fid = df["field"].value
-                        func_ptr = f"r{df['obj']}->_s_type->vobj_proto[{fid}]"
+                        func_ptr = f"r{df['obj']}->_s_type->vobj_table[{fid}]"
                         # `fid` indexes the vtable by proto pindex, not the dst register's
                         # (already-bound, this-dropped) type -- hl_alloc_closure_ptr needs the
                         # method's own full/unbound signature to know how to drop `this`.
